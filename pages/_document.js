@@ -1,31 +1,36 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { ServerStyleSheet as StyledComponentSheets } from 'styled-components';
+import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/core/styles';
 
-import { ServerStyleSheet } from 'styled-components';
-
+import { theme } from '@/styles/theme';
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
-    const sheet = new ServerStyleSheet();
+    const styledComponentSheet = new StyledComponentSheets();
+    const materialUiSheets = new MaterialUiServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 
     try {
       ctx.renderPage = () =>
         originalRenderPage({
           enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />)
+            styledComponentSheet.collectStyles(
+              materialUiSheets.collect(<App {...props} />)
+            )
         });
 
       const initialProps = await Document.getInitialProps(ctx);
       return {
         ...initialProps,
-        styles: (
-          <>
+        styles: [
+          <React.Fragment key="styles">
             {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        )
+            {materialUiSheets.getStyleElement()}
+            {styledComponentSheet.getStyleElement()}
+          </React.Fragment>
+        ]
       };
     } finally {
-      sheet.seal();
+      styledComponentSheet.seal();
     }
   }
 
@@ -35,10 +40,10 @@ export default class MyDocument extends Document {
         <Head>
           <meta title="Welcome To Next.js | Custom boilerplate for Next.Js, created from next-app" />
           <link rel="icon" sizes="96x96" href="/favicon.ico" />
-          <meta name="theme-color" content="#319795"></meta>
+          <meta name="theme-color" content={theme.colors.primary}></meta>
           <link
-            href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;900&display=swap"
             rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
         <body>

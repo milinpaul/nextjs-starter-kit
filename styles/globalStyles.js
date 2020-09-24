@@ -14,7 +14,7 @@ export default createGlobalStyle`
   }
   body {
     height: 100vh;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     position: relative;
     color: #67768c;
   }

@@ -10,12 +10,10 @@ export const theme = {
     borderColor: '#dee3e7'
   },
   fontWeight: {
-    xLight: 200,
     light: 300,
     regular: 400,
-    bold: 600,
-    xbold: 700,
-    black: 900
+    bold: 500,
+    black: 700
   },
   fontSizes: {
     xLarge: '',
